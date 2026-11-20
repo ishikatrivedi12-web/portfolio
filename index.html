@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ishika Trivedi Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: sticky top nav, left-aligned intro with a stat strip, then three work sections (grid, swipe tracks, video cards). */
+:root {
+  --bg: #f5f6f9;
+  --surface: #ffffff;
+  --ink: #101828;
+  --muted: #566074;
+  --line: #dde2ec;
+  --accent: #2b50e0;
+  --accent-soft: #e8edff;
+  --mark: #ffd166;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--accent); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.12; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+.draft { background: var(--mark); color: var(--ink); font-size: 14px; font-weight: 500; padding: 8px 20px; text-align: center; }
+
+.nav { position: sticky; top: 0; z-index: 20; background: rgba(245,246,249,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; }
+.brand { font-family: var(--display); font-weight: 700; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nav ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; overflow-x: auto; }
+.nav li a { display: block; padding: 8px 12px; border-radius: 999px; color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap; }
+.nav li a:hover { background: var(--accent-soft); color: var(--accent); }
+
+.hero { padding: 64px 0 40px; }
+.hero h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 700; }
+.hero .role { margin-top: 14px; font-family: var(--display); font-size: clamp(1.2rem, 2.6vw, 1.6rem); font-weight: 500; }
+.hero .role mark { background: linear-gradient(transparent 58%, var(--mark) 58%); color: inherit; padding: 0 2px; }
+.hero .lede { margin-top: 18px; max-width: 62ch; color: var(--muted); font-size: 1.08rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { display: inline-block; padding: 12px 20px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 15px; border: 2px solid var(--accent); }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.primary:hover { background: #2342bd; border-color: #2342bd; }
+.btn.ghost:hover { background: var(--accent-soft); }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 40px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.stat b { display: block; font-family: var(--display); font-size: 2rem; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 15px; }
+
+section { padding: 56px 0 8px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; margin-bottom: 24px; }
+.sec-head h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); }
+.sec-head p { color: var(--muted); max-width: 52ch; }
+
+.results { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.result b { display: block; font-family: var(--display); font-size: 1.9rem; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.result p { margin-top: 8px; font-size: 15px; color: var(--ink); }
+
+.grid-static { columns: 3; column-gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; break-inside: avoid; margin: 0 0 16px; }
+.card figcaption { padding: 10px 6px 4px; font-size: 14px; color: var(--muted); }
+.ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; padding: 12px; border: 2px dashed #b9c1d3; border-radius: 10px; background: repeating-linear-gradient(135deg, #f1f3f8 0 10px, #eceff6 10px 20px); color: var(--muted); }
+.ph-label { font-weight: 700; font-size: 15px; color: var(--ink); }
+.ph-size { font-size: 13px; font-variant-numeric: tabular-nums; }
+.frame { position: relative; width: 100%; border-radius: 10px; overflow: hidden; }
+.r-1 { aspect-ratio: 1 / 1; }
+.r-45 { aspect-ratio: 4 / 5; }
+.r-916 { aspect-ratio: 9 / 16; }
+.r-169 { aspect-ratio: 16 / 9; }
+.r-43 { aspect-ratio: 4 / 3; }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.frame.r-auto .zoom { position: static; }
+.frame.r-auto img { height: auto; }
+.zoom { position: absolute; inset: 0; display: block; padding: 0; border: 0; background: none; cursor: zoom-in; }
+
+.carousels { display: grid; gap: 28px; }
+.carousel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px 0 20px 20px; }
+.carousel header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 16px; padding-right: 20px; margin-bottom: 14px; }
+.carousel h3 { font-size: 1.3rem; }
+.carousel .meta { color: var(--muted); font-size: 14px; }
+.track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 20px 12px 0; cursor: grab; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.track.dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.slide { flex: 0 0 min(300px, 76%); scroll-snap-align: start; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-right: 20px; margin-top: 6px; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.dot[aria-current="true"] { background: var(--accent); width: 22px; border-radius: 6px; }
+.count { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.pager { display: flex; gap: 8px; }
+.pager button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 18px; cursor: pointer; }
+.pager button:hover:not(:disabled) { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.pager button:disabled { opacity: .35; cursor: default; }
+
+.videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+.video { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+.video .frame { max-width: 100%; }
+.video.vertical .frame { max-width: 260px; margin: 0 auto; }
+.video h3 { font-size: 1.1rem; margin-top: 12px; padding: 0 6px; }
+.video p { padding: 4px 6px 0; color: var(--muted); font-size: 14px; }
+.video .watch { display: inline-block; margin: 10px 6px 6px; font-weight: 700; font-size: 15px; }
+.video .soon { display: inline-block; margin: 10px 6px 6px; color: var(--muted); font-size: 14px; }
+.play { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.play i { width: 56px; height: 56px; border-radius: 50%; background: rgba(16,24,40,.78); display: grid; place-items: center; }
+.play i::after { content: ""; border-left: 16px solid #fff; border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+
+.sites { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.site { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; color: var(--ink); text-decoration: none; transition: border-color .15s, transform .15s; }
+.site:hover { border-color: var(--accent); transform: translateY(-2px); }
+.site .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 4px 10px; }
+.site h3 { margin-top: 12px; font-size: 1.2rem; }
+.site p { margin-top: 8px; font-size: 15px; color: var(--muted); }
+.site .go { display: inline-block; margin-top: 14px; font-weight: 700; color: var(--accent); }
+.site .go::after { content: " \2192"; }
+/* Motion */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; z-index: 30; pointer-events: none; }
+.js .rv { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+.js .rv.in { opacity: 1; transform: none; }
+.hero h1, .hero .role, .hero .lede, .hero .actions, .hero .stats, .hero .tools { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.hero .role { animation-delay: .08s; } .hero .lede { animation-delay: .16s; } .hero .actions { animation-delay: .24s; } .hero .stats { animation-delay: .32s; } .hero .tools { animation-delay: .42s; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.hero mark { background-size: 0% 100%; background-repeat: no-repeat; animation: hl 1s .5s ease forwards; }
+@keyframes hl { to { background-size: 100% 100%; } }
+.result, .stat { transition: transform .2s ease, box-shadow .2s ease; }
+.result:hover, .stat:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(30,40,80,.08); }
+.site:hover { box-shadow: 0 8px 22px rgba(30,40,80,.1); }
+.btn { transition: background .15s, transform .15s; } .btn:hover { transform: translateY(-1px); }
+.nav li a.on { background: var(--accent-soft); color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .js .rv { opacity: 1; transform: none; transition: none; } .hero * { animation: none !important; } .hero mark { background-size: 100% 100%; } .progress { display: none; } }
+.reviews { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+.review { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; transition: transform .2s ease, box-shadow .2s ease; }
+.review:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(30,40,80,.08); }
+.review blockquote { margin: 0; font-size: 1.05rem; line-height: 1.5; }
+.review blockquote::before { content: "\201C"; display: block; font-family: var(--display); font-size: 2.4rem; line-height: .8; color: var(--accent); margin-bottom: 6px; }
+.review figcaption b { display: block; }
+.review figcaption span, .review figcaption em { display: block; font-size: 14px; color: var(--muted); font-style: normal; }
+.brand-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 16px; align-items: start; }
+.brand-grid .stack { display: grid; gap: 16px; }
+@media (max-width: 800px) { .brand-grid { grid-template-columns: 1fr; } }
+.tools { margin-top: 36px; }
+.tools h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: inherit; font-weight: 700; margin: 0 0 12px; }
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee-track { display: flex; gap: 10px; width: max-content; animation: roll 38s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.tool { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-weight: 600; font-size: 15px; white-space: nowrap; }
+@keyframes roll { to { transform: translateX(calc(-50% - 5px)); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; flex-wrap: wrap; width: auto; } .marquee { -webkit-mask-image: none; mask-image: none; } .tool[aria-hidden] { display: none; } }
+.note { margin-top: 14px; color: var(--muted); font-size: 14px; }
+
+.about { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+.panel h3 { font-size: 1.25rem; margin-bottom: 12px; }
+.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.list li { padding-left: 22px; position: relative; }
+.list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+.cert + .cert { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.cert b { display: block; }
+.cert span { color: var(--muted); font-size: 14px; }
+.tools { margin-top: 18px; color: var(--muted); font-size: 15px; }
+
+.cta { margin: 56px 0 0; background: var(--ink); color: #fff; padding: 52px 0; }
+.cta h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+.cta p { margin-top: 10px; color: #c6cddc; max-width: 56ch; }
+.cta .btn.primary { background: var(--mark); border-color: var(--mark); color: var(--ink); }
+.cta .btn.primary:hover { background: #ffc233; border-color: #ffc233; }
+.foot { padding: 20px 0 32px; color: #c6cddc; background: var(--ink); font-size: 14px; border-top: 1px solid #263147; }
+
+.box { position: fixed; inset: 0; z-index: 50; background: rgba(10,14,24,.88); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.box[hidden] { display: none; }
+.box img { max-width: min(92vw, 980px); max-height: 86vh; border-radius: 10px; background: #fff; }
+.box-close { position: absolute; top: 16px; right: 16px; padding: 10px 18px; border-radius: 999px; border: 0; background: #fff; color: var(--ink); font-weight: 700; cursor: pointer; }
+
+@media (max-width: 900px) {
+  .grid-static { columns: 2; }
+  .about { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .hero { padding-top: 40px; }
+  .stats { grid-template-columns: 1fr; }
+  .nav .wrap { flex-direction: column; align-items: flex-start; gap: 0; padding-top: 8px; padding-bottom: 6px; }
+  .grid-static { column-gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="draft" id="draft" hidden>Draft preview. The grey dashed tiles are placeholders that will be replaced with real work.</div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Ishika Trivedi</a>
+    <ul>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#static">Static designs</a></li>
+      <li><a href="#carousels">Carousels</a></li>
+      <li><a href="#brand">Brand &amp; print</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#websites">Websites</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>Ishika Trivedi</h1>
+    <p class="role"><mark>Social media manager</mark> and content strategist</p>
+    <p class="lede">I plan, design and publish on-brand content on LinkedIn, Instagram and Google for US and UK brands in B2B consulting, marketing automation, wellness and local services. Every post is scheduled, delivered on time and owned end to end.</p>
+    <div class="actions">
+      <a class="btn primary" href="#static">See the work</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>5+ years</b><span>in digital marketing</span></div>
+      <div class="stat"><b>2</b><span>HubSpot Academy certifications</span></div>
+    </div>
+    <div class="tools" aria-label="Tools I work with">
+      <h2>Tools I work with</h2>
+      <div class="marquee"><div class="marquee-track" id="tools-track"></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="results">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Results</h2>
+        <p>Figures from client accounts I managed.</p>
+      </div>
+      <div class="results">
+        <div class="result"><b>1K to 1.3K</b><p>Instagram followers for a US B2B company in 4 months, with every scheduled post published on time.</p></div>
+        <div class="result"><b>16.9K views</b><p>on a short-form YouTube video I created for a B2B brand, in 3 months.</p></div>
+        <div class="result"><b>1 day</b><p>to plan and build a full month of content: 2 static posts and a carousel per week.</p></div>
+        <div class="result"><b>150+ pages</b><p>of a wellness guide created for a client in 3 days.</p></div>
+        <div class="result"><b>3 days</b><p>each to set up a wellness client's GoHighLevel CRM and to build their website.</p></div>
+        <div class="result"><b>Animated Reels</b><p>produced with Claude and Canva for a US business consulting agency.</p></div>
+        <div class="result"><b>10 to 500</b><p>LinkedIn impressions on a client's posts, with a consistent content plan.</p></div>
+        <div class="result"><b>50 views</b><p>on an AI blog article, from the blog strategy and topic plan I built.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="static">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Static designs</h2>
+        <p>Single-image posts for B2B, wellness and local-service brands. Tap an image to enlarge it.</p>
+      </div>
+      <div class="grid-static" id="static-grid"></div>
+    </div>
+  </section>
+
+  <section id="carousels">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Carousel designs</h2>
+        <p>Swipe, drag or use the arrows to move through each carousel slide by slide.</p>
+      </div>
+      <div class="carousels" id="carousel-list"></div>
+    </div>
+  </section>
+
+  <section id="brand">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Brand and print design</h2>
+        <p>A brand board and a tri-fold brochure for a women's health clinic. Select an image to enlarge it.</p>
+      </div>
+      <div class="brand-grid" id="brand-grid"></div>
+    </div>
+  </section>
+
+  <section id="video">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Video and Reels</h2>
+        <p>Short-form videos for Instagram, YouTube and LinkedIn.</p>
+      </div>
+      <div class="videos" id="video-list"></div>
+    </div>
+  </section>
+
+  <section id="websites">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Websites, landing pages and pillar content</h2>
+        <p>Live pages for client brands. Open any card to see the page.</p>
+      </div>
+      <div class="sites">
+        <a class="site" href="https://capacity360wellnessgroup.com/home/pamelabartee" target="_blank" rel="noopener">
+          <span class="tag">Wellness coaching</span>
+          <h3>About page</h3>
+          <p>Capacity 360 Wellness Group. A page for a coach working with midlife women: her services, story, testimonials and a clear "book a conversation" call to action.</p>
+          <span class="go">View live page</span>
+        </a>
+        <a class="site" href="https://capacity360wellnessgroup.com/capacity-reset-black-friday-page" target="_blank" rel="noopener">
+          <span class="tag">Sales page</span>
+          <h3>Black Friday offer page</h3>
+          <p>Capacity 360 Wellness Group. A long-form sales page for a health assessment: symptoms, how it works, pricing, bio, testimonials, FAQ and closing call to action.</p>
+          <span class="go">View live page</span>
+        </a>
+        <a class="site" href="https://imaginegrowth.ai/insights/claude-hubspot-complete-guide/" target="_blank" rel="noopener">
+          <span class="tag">Pillar page</span>
+          <h3>Claude and HubSpot: The Complete Guide</h3>
+          <p>Imagine Growth. A 10-minute pillar guide to how the Claude HubSpot connector works: setup, capabilities, security, data readiness, cost and FAQ, linking out to deeper guides.</p>
+          <span class="go">Read the guide</span>
+        </a>
+        <a class="site" href="https://capacity360wellnessgroup.com/bf-checkout-page" target="_blank" rel="noopener">
+          <span class="tag">Checkout page</span>
+          <h3>Black Friday checkout page</h3>
+          <p>Capacity 360 Wellness Group. The checkout for the health assessment offer: what is included, an optional review session add-on, and a secure payment form.</p>
+          <span class="go">View live page</span>
+        </a>
+        <a class="site" href="https://serenebeautywellness.com/" target="_blank" rel="noopener">
+          <span class="tag">Clinic website</span>
+          <h3>Serene Beauty & Wellness</h3>
+          <p>A women's health clinic website in Akron, Ohio: services, the EMBODY 365 program, blog, FAQs, payment options and contact.</p>
+          <span class="go">View live site</span>
+        </a>
+        <a class="site" href="https://project-driver.com/" target="_blank" rel="noopener">
+          <span class="tag">Business website</span>
+          <h3>Project Driver</h3>
+          <p>Website of a Florida firm that plans and runs marketing, operations and systems for small businesses. I create content for this client.</p>
+          <span class="go">View live site</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="blogs">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Blog articles</h2>
+        <p>SEO and thought-leadership articles published on client sites.</p>
+      </div>
+      <div class="sites">
+        <a class="site" href="https://imaginegrowth.ai/insights/claude-hubspot-prompts/" target="_blank" rel="noopener">
+          <span class="tag">HubSpot and AI</span>
+          <h3>25 Claude Prompts for HubSpot, by Role</h3>
+          <p>Imagine Growth. Ready-to-use prompts grouped by role (CEOs, sales, marketing, RevOps and customer success), with a template for writing your own.</p>
+          <span class="go">Read the article</span>
+        </a>
+        <a class="site" href="https://ixt.io/blog/international-iot-roaming-compliance-guide-for-2026" target="_blank" rel="noopener">
+          <span class="tag">IoT connectivity</span>
+          <h3>International IoT roaming compliance guide for 2026</h3>
+          <p>IXT. Where permanent roaming for IoT SIMs meets regulatory and operator limits, how to assess risk market by market, and when to switch to local, multi-IMSI or eUICC options.</p>
+          <span class="go">Read the article</span>
+        </a>
+        <a class="site" href="https://profound.ly/blog/avoid-the-year-end-rush-preparing-your-hubspot-portal-for-2026" target="_blank" rel="noopener">
+          <span class="tag">HubSpot</span>
+          <h3>HubSpot Portal Year-End Prep: 2026 Checklist</h3>
+          <p>Profoundly. A checklist for cleaning up a HubSpot portal before year-end: properties, workflows, pipelines, reports, integrations and user permissions.</p>
+          <span class="go">Read the article</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Client reviews</h2>
+        <p>Feedback from the people I have worked with.</p>
+      </div>
+      <div class="reviews">
+        <figure class="review">
+          <blockquote>Huge thank you to Ishika for all of your incredible work getting the word out there and driving sign ups, attendance and mindshare!</blockquote>
+          <figcaption><b>Brian Garvey</b><span>CEO, Profoundly</span><em>On promoting a company event</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>I can't take credit. Ishika is the one who did all the hard work with the recordings!</blockquote>
+          <figcaption><b>Emma Cooper</b><span>Co-founder, Imagine Growth</span><em>On a webinar recordings project</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Ishika, you're on fire with these updates!</blockquote>
+          <figcaption><b>Emma Cooper</b><span>Co-founder, Imagine Growth</span><em>On regular content updates</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Incredible. Good work.</blockquote>
+          <figcaption><b>Rikki Lear</b><span>Co-founder, Imagine Growth</span><em>On a content deliverable</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Way to go, Ishika! Great work on this!</blockquote>
+          <figcaption><b>Brian Garvey</b><span>CEO, Profoundly</span><em>On the event recordings</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>This was so funny I laughed out loud.</blockquote>
+          <figcaption><b>Brian Garvey</b><span>CEO, Profoundly</span><em>On a LinkedIn post I created</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Looks great! Nice work.</blockquote>
+          <figcaption><b>Rikki Lear</b><span>Co-founder, Imagine Growth</span><em>On HubSpot guide designs</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Love the branding board.</blockquote>
+          <figcaption><b>Tiara Broady</b><span>Founder, Serene Beauty &amp; Wellness</span><em>On the brand board I created</em></figcaption>
+        </figure>
+        <figure class="review">
+          <blockquote>Yes, looks good.</blockquote>
+          <figcaption><b>Tiara Broady</b><span>Founder, Serene Beauty &amp; Wellness</span><em>On an event flyer design</em></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>About my work</h2>
+      </div>
+      <div class="about">
+        <div class="panel">
+          <h3>What I handle</h3>
+          <ul class="list">
+            <li>Monthly content calendars for LinkedIn and Instagram</li>
+            <li>Carousels, static posts and short-form Reels</li>
+            <li>Blog strategy: topic planning, SEO articles, published in HubSpot or WordPress</li>
+            <li>Digital marketing across social, search and email</li>
+            <li>Website creation for small businesses</li>
+            <li>Repurposing blogs, podcasts and webinars into social posts</li>
+            <li>Google Business Profile setup, optimisation and weekly posts</li>
+            <li>HubSpot support: workflows, contact lists, email campaigns and reporting</li>
+          </ul>
+          <p class="tools">Tools: HubSpot, Canva, Meta Business Suite, Publer, SEMrush, Google Analytics, Search Console, WordPress, Mailchimp.</p>
+        </div>
+        <div class="panel">
+          <h3>Certifications</h3>
+          <div class="cert"><b>HubSpot Marketing Hub Software Certified</b><span>HubSpot Academy. Valid 7 Jul 2026 to 6 Aug 2027.</span></div>
+          <div class="cert"><b>Social Media Certified</b><span>HubSpot Academy. Valid 3 Jun 2026 to 2 Jul 2028.</span></div>
+          <div class="cert"><b>Agency background</b><span>Former Social Media Specialist at a HubSpot agency, where I represented the team at INBOUND 2025.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="wrap">Ishika Trivedi. Based in India, working across US and UK hours.</div></footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Replace the empty src values with image data once real work is added.
+     An item with an empty src shows a placeholder tile. */
+  var DATA = {
+    statics: [
+      { src: "img/revenue-audit.jpg", alt: "Dark blue post with the headline: 95% of open deals have an expired close date", label: "Revenue audit post", caption: "HubSpot consultancy. Data-led audit post." },
+      { src: "img/speaker-event.jpg", alt: "Event announcement for the Black Diamonds Women's Conference with a speaker portrait and event details", label: "Speaker event post", caption: "Wellness clinic. Conference speaker announcement." },
+      { src: "img/christmas-poll.jpg", alt: "Navy poll post asking when your Christmas print actually gets booked, with four answer options", label: "Christmas poll post", caption: "Print company. Seasonal engagement poll." },
+      { src: "img/zero-trust.jpg", alt: "Post showing four team members and the headline: The best thing about this integration is what we deleted", label: "Zero trust post", caption: "IoT connectivity provider. Product explainer with team photo." },
+      { src: "img/founder-quote.jpg", alt: "Founder quote post about burnout and protecting capacity, with a portrait of a doctor", label: "Founder quote post", caption: "Wellness group. Founder story quote post." },
+      { src: "img/burnout-awareness.jpg", alt: "Post with the headline: You may not have lost your ambition, you may have lost the capacity to carry it, beside a photo of a tired woman at a desk", label: "Burnout awareness post", caption: "Wellness brand. Burnout awareness post." }
+    ],
+    carousels: [
+      {
+        title: "Uncoated paper and LED UV printing",
+        meta: "Print company. Educational carousel, 7 slides.",
+        files: [
+          ["img/uncoated-1-cover.jpg", "Cover: Why does some print just feel better in your hand? It's the stock and the press."],
+          ["img/uncoated-2-stock.jpg", "Slide 1, the stock: uncoated paper has nothing to hide behind"],
+          ["img/uncoated-3-catch.jpg", "Slide 2, the catch: on a conventional press, ink soaks in"],
+          ["img/uncoated-4-press.jpg", "Slide 3, the press: LED UV dries the ink in an instant"],
+          ["img/uncoated-5-result.jpg", "Slide 4, the result: the feel of uncoated and the finish of a sharp print"],
+          ["img/uncoated-6-parkgate.jpg", "Slide 5: printed in Parkgate, Rotherham"],
+          ["img/uncoated-7-cta.jpg", "Final slide: Feel the difference for yourself, request samples"]
+        ]
+      },
+      {
+        title: "Five things an IoT SIM datasheet will not tell you",
+        meta: "IoT connectivity provider. Educational carousel, 7 slides.",
+        ratio: "r-1",
+        files: [
+          ["img/datasheet-1-cover.jpg", "Cover: Five things an IoT SIM datasheet will not tell you, with a list of the five topics"],
+          ["img/datasheet-2-switch.jpg", "Slide 1: what triggers a network switch, and how long it takes"],
+          ["img/datasheet-3-core.jpg", "Slide 2: whether your traffic shares a core with other tenants"],
+          ["img/datasheet-4-roaming.jpg", "Slide 3: what happens when a market restricts permanent roaming"],
+          ["img/datasheet-5-live-session.jpg", "Slide 4: whether you can see a live session"],
+          ["img/datasheet-6-sla.jpg", "Slide 5: what the provider will not commit to in writing"],
+          ["img/datasheet-7-cta.jpg", "Final slide: Save this and ask all five questions, with a Talk to IXT button"]
+        ]
+      },
+      {
+        title: "B2B growth is a sequence, not a checklist",
+        meta: "B2B growth consultancy. Educational carousel, 5 slides.",
+        files: [
+          ["img/growth-1-cover.jpg", "Cover: B2B growth isn't stalled because your team isn't working hard enough. It might be the wrong order."],
+          ["img/growth-2-problem.jpg", "Slide 2: More activity doesn't always mean more growth, with three examples of steps taken out of order"],
+          ["img/growth-3-insight.jpg", "Slide 3: Growth is a sequence, not a checklist: Position, Audience, Connect, Enable"],
+          ["img/growth-4-shift.jpg", "Slide 4: Channel-first versus sequence-first approach to growth"],
+          ["img/growth-5-guide.jpg", "Slide 5: Call to action to read the full guide in the first comment"]
+        ]
+      }
+    ].map(function (c) {
+      var slides = [];
+      if (c.files) {
+        c.files.forEach(function (f, i) { slides.push({ src: f[0], alt: f[1], label: "Slide " + (i + 1) }); });
+      } else {
+        for (var i = 1; i <= c.slides; i++) slides.push({ src: "", alt: c.title + ", slide " + i, label: "Slide " + i });
+      }
+      return { title: c.title, meta: c.meta, ratio: c.ratio || "r-45", slides: slides };
+    }),
+    videos: [
+      { title: "Isn't printing bad for the planet?", note: "Short brand video for a print company's sustainability message. 49 seconds, with captions.", ratio: "r-1", vertical: false, url: "", poster: "img/print-video-poster.jpg", file: "img/print-video.mp4" },
+      { title: "Animated Reel", note: "Made with Claude and Canva for a US business consulting agency. 65 seconds.", ratio: "r-916", vertical: true, url: "", poster: "img/reel-poster.jpg", file: "img/animated-reel.mp4" },
+      { title: "Short-form video", note: "Captioned vertical clip cut from a longer webinar, for a B2B brand. 59 seconds.", ratio: "r-916", vertical: true, url: "", poster: "img/short-form-poster.jpg", file: "img/short-form.mp4" }
+    ]
+  };
+
+  var placeholders = 0;
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") n.className = attrs[k];
+      else if (k === "text") n.textContent = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
+    return n;
+  }
+
+  /* Image viewer */
+  var viewerImg = el("img", { alt: "" });
+  var closeBtn = el("button", { "class": "box-close", type: "button", "aria-label": "Close preview", text: "Close" });
+  var box = el("div", { "class": "box", role: "dialog", "aria-modal": "true", "aria-label": "Image preview", hidden: "" }, [viewerImg, closeBtn]);
+  document.body.appendChild(box);
+  var lastFocus = null;
+  function openBox(src, alt) {
+    lastFocus = document.activeElement;
+    viewerImg.src = src; viewerImg.alt = alt;
+    box.hidden = false; closeBtn.focus();
+  }
+  function closeBox() {
+    box.hidden = true; viewerImg.removeAttribute("src");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  closeBtn.addEventListener("click", closeBox);
+  box.addEventListener("click", function (e) { if (e.target === box) closeBox(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !box.hidden) closeBox(); });
+
+  /* A framed image, or a labelled placeholder when there is no image yet */
+  function frame(item, ratio, size) {
+    var f = el("div", { "class": "frame " + ratio });
+    if (item.src) {
+      var img = el("img", { src: item.src, alt: item.alt, loading: "lazy", draggable: "false" });
+      var b = el("button", { "class": "zoom", type: "button", "aria-label": "Enlarge: " + item.alt }, [img]);
+      b.addEventListener("click", function () { openBox(item.src, item.alt); });
+      f.appendChild(b);
+    } else {
+      placeholders++;
+      f.appendChild(el("div", { "class": "ph", role: "img", "aria-label": item.label + " (placeholder)" }, [
+        el("span", { "class": "ph-label", text: item.label }),
+        el("span", { "class": "ph-size", text: size })
+      ]));
+    }
+    return f;
+  }
+
+  /* Static designs */
+  var sg = document.getElementById("static-grid");
+  DATA.statics.forEach(function (s) {
+    sg.appendChild(el("figure", { "class": "card" }, [
+      frame(s, s.src ? "r-auto" : "r-1", "1080 × 1080"),
+      el("figcaption", { text: s.caption })
+    ]));
+  });
+
+  /* Carousels */
+  function buildCarousel(c) {
+    var track = el("div", { "class": "track", tabindex: "0", role: "group", "aria-label": c.title + " slides. Use the arrow keys to move." });
+    c.slides.forEach(function (s) {
+      track.appendChild(el("div", { "class": "slide" }, [frame(s, c.ratio, c.ratio === "r-1" ? "1080 × 1080" : "1080 × 1350")]));
+    });
+    var count = el("span", { "class": "count", "aria-live": "polite" });
+    var dots = el("div", { "class": "dots", "aria-hidden": "true" });
+    c.slides.forEach(function () { dots.appendChild(el("span", { "class": "dot" })); });
+    var prev = el("button", { type: "button", "aria-label": "Previous slide", text: "‹" });
+    var next = el("button", { type: "button", "aria-label": "Next slide", text: "›" });
+
+    function step() {
+      var s = track.children[0];
+      return s ? s.getBoundingClientRect().width + 16 : 300;
+    }
+    function update() {
+      var n = c.slides.length;
+      var i = Math.round(track.scrollLeft / step());
+      i = Math.max(0, Math.min(n - 1, i));
+      var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      if (atEnd) i = n - 1;
+      count.textContent = "Slide " + (i + 1) + " of " + n;
+      Array.prototype.forEach.call(dots.children, function (d, k) { d.setAttribute("aria-current", k === i ? "true" : "false"); });
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = atEnd;
+    }
+    function go(dir) { track.scrollBy({ left: dir * step(), behavior: reduceMotion ? "auto" : "smooth" }); }
+    prev.addEventListener("click", function () { go(-1); });
+    next.addEventListener("click", function () { go(1); });
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+    });
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; update(); });
+    });
+
+    /* Mouse drag. Touch uses the browser's own swipe. */
+    var down = false, startX = 0, startLeft = 0, moved = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+      track.classList.add("dragging");
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      track.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener("pointerup", function () {
+      if (!down) return;
+      down = false; track.classList.remove("dragging");
+    });
+    track.addEventListener("click", function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+    track.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+    var art = el("article", { "class": "carousel" }, [
+      el("header", null, [
+        el("div", null, [el("h3", { text: c.title }), el("p", { "class": "meta", text: c.meta })]),
+        count
+      ]),
+      track,
+      el("div", { "class": "controls" }, [dots, el("div", { "class": "pager" }, [prev, next])])
+    ]);
+    setTimeout(update, 0);
+    window.addEventListener("resize", update);
+    return art;
+  }
+  var cl = document.getElementById("carousel-list");
+  DATA.carousels.forEach(function (c) { cl.appendChild(buildCarousel(c)); });
+
+  /* Videos */
+  var vl = document.getElementById("video-list");
+  DATA.videos.forEach(function (v) {
+    var item = { src: v.poster, alt: v.title + " cover", label: v.title };
+    var f;
+    if (v.file) {
+      f = el("div", { "class": "frame " + v.ratio }, []);
+      var vid = document.createElement("video");
+      vid.controls = true; vid.preload = "metadata"; vid.poster = v.poster; vid.setAttribute("playsinline", "");
+      vid.src = v.file; vid.setAttribute("aria-label", v.title);
+      vid.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000";
+      f.appendChild(vid);
+    } else {
+      f = frame(item, v.ratio, v.vertical ? "1080 × 1920" : "1920 × 1080");
+    }
+    if (v.poster && !v.file) f.appendChild(el("div", { "class": "play", "aria-hidden": "true" }, [el("i")]));
+    var action = v.file
+      ? el("span", { "class": "soon", text: "Press play to watch" })
+      : v.url
+      ? el("a", { "class": "watch", href: v.url, target: "_blank", rel: "noopener", text: "Watch the video" })
+      : el("span", { "class": "soon", text: "Video link coming soon" });
+    vl.appendChild(el("div", { "class": "video" + (v.vertical ? " vertical" : "") }, [
+      f, el("h3", { text: v.title }), el("p", { text: v.note }), action
+    ]));
+  });
+
+  /* Brand and print */
+  var bg = document.getElementById("brand-grid");
+  var bItems = [
+    { src: "img/serene-brand-board.jpg", alt: "Brand board for Serene Beauty and Wellness: logo variations, color palette, typefaces, buttons, social post examples and brand voice", caption: "Brand board: logo use, color palette, typefaces, buttons, social post examples and brand voice." },
+    { src: "img/serene-brochure-outside.jpg", alt: "Tri-fold brochure outside: provider introduction, contact details and a Book a Clarity Consult cover panel", caption: "Tri-fold brochure, outside: provider introduction, contact details and cover." },
+    { src: "img/serene-brochure-inside.jpg", alt: "Tri-fold brochure inside: symptoms, hormone replacement therapy and women's health services, the EMBODY 365 program and how care begins", caption: "Tri-fold brochure, inside: services, signature program and how care begins." }
+  ];
+  function bCard(s) { return el("figure", { "class": "card" }, [frame(s, "r-auto", ""), el("figcaption", { text: s.caption })]); }
+  bg.appendChild(bCard(bItems[0]));
+  bg.appendChild(el("div", { "class": "stack" }, [bCard(bItems[1]), bCard(bItems[2])]));
+
+  /* Tools marquee */
+  var tools = ["Canva", "HubSpot", "Claude", "Slack", "GoHighLevel", "WordPress", "Shopify", "Meta Business Suite", "Google Business Profile", "Google Analytics", "Google Search Console", "Google Trends", "Microsoft 365", "CapCut", "InShot", "InVideo"];
+  var track = document.getElementById("tools-track");
+  if (track) {
+    [0, 1].forEach(function (pass) {
+      tools.forEach(function (t) {
+        var chip = el("span", { "class": "tool", text: t });
+        if (pass) chip.setAttribute("aria-hidden", "true");
+        track.appendChild(chip);
+      });
+    });
+  }
+
+
+  /* Motion: scroll reveal, progress bar, active nav link */
+  document.documentElement.classList.add("js");
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var n = en.target;
+        n.classList.add("in");
+        io.unobserve(n);
+        setTimeout(function () { n.classList.remove("rv", "in"); n.style.transitionDelay = ""; }, 1200);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll(".sec-head, .result, .card, .site, .video, .carousel, .review, .brand-grid .card").forEach(function (n) {
+      var sib = Array.prototype.indexOf.call(n.parentNode.children, n);
+      n.style.transitionDelay = Math.min(sib * 70, 350) + "ms";
+      n.classList.add("rv");
+      io.observe(n);
+    });
+  } else { document.documentElement.classList.remove("js"); }
+  var bar = document.getElementById("progress");
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav li a"));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  function onScroll() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar && !reduceMotion) bar.style.transform = "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+    var cur = -1;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle("on", i === cur); });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  if (placeholders > 0) document.getElementById("draft").hidden = false;
+})();
+</script>
+</body>
+</html>
